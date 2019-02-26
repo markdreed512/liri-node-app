@@ -18,9 +18,10 @@
   },
   "homepage": "https://github.com/markdreed512/liri-node-app#readme",
   "dependencies": {
-    "dotenv": "^6.2.0",
     "axios": "^0.18.0",
+    "dotenv": "^6.2.0",
     "inquirer": "^6.2.1",
-    "node-spotify-api": "^1.0.7"
+    "node-spotify-api": "^1.0.7",
+    "moment": "^2.24.0"
   }
 }
