@@ -89,10 +89,10 @@ function spotifyData() {
       .search({ type: "track", query: value })
       .then(function(response) {
         console.log(`
-        song title: ${response.tracks.items[0].name}
-        Artist: ${response.tracks.items[0].artists[0].name}
-        Preview URL: ${response.tracks.items[0].preview_url}
-        Album: ${response.tracks.items[0].album.name}
+Song title: ${response.tracks.items[0].name}
+Artist: ${response.tracks.items[0].artists[0].name}
+Preview URL: ${response.tracks.items[0].preview_url}
+Album: ${response.tracks.items[0].album.name}
         `);
       })
       .catch(function(err) {
@@ -118,7 +118,14 @@ function doWhatItSays() {
   fs.readFile("random.txt", "utf8", function(err, data) {
     if (err) {
       console.log("error!!!");
+    } else {
+      var text = data.split(",");
+      if (text[0] === "spotify-this-song") {
+        value = text[1];
+        spotifyData();
+      } else {
+        console.log("cannot access data");
+      }
     }
-    console.log("data: " + [data.split(",")]);
   });
 }
