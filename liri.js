@@ -89,10 +89,12 @@ function spotifyData() {
       .search({ type: "track", query: value })
       .then(function(response) {
         console.log(`
-        song title: ${response.tracks.items[0].name}
-        Artist: ${response.tracks.items[0].artists[0].name}
-        Preview URL: ${response.tracks.items[0].preview_url}
-        Album: ${response.tracks.items[0].album.name}
+************************************************************
+Song title: ${response.tracks.items[0].name}
+Artist: ${response.tracks.items[0].artists[0].name}
+Preview URL: ${response.tracks.items[0].preview_url}
+Album: ${response.tracks.items[0].album.name}
+************************************************************
         `);
       })
       .catch(function(err) {
@@ -103,22 +105,35 @@ function spotifyData() {
 function movieData() {
   axios.get(OmdbQueryUrl).then(function(response) {
     console.log(`
-    Title: ${response.data.Title}
-    Year: ${response.data.Year}
-    IMDB Rating: ${response.data.Ratings[0].Value}
-    Rotten Tomatoes Rating: ${response.data.Ratings[1].Value}
-    Country: ${response.data.Country}
-    Year: ${response.data.Year}
-    Plot: ${response.data.Plot}
-    Actors: ${response.data.Actors}
+********************************************************
+Title: ${response.data.Title}
+Year: ${response.data.Year}
+IMDB Rating: ${response.data.Ratings[0].Value}
+Rotten Tomatoes Rating: ${response.data.Ratings[1].Value}
+Country: ${response.data.Country}
+Year: ${response.data.Year}
+Plot: ${response.data.Plot}
+Actors: ${response.data.Actors}
+********************************************************
     `);
   });
 }
 function doWhatItSays() {
   fs.readFile("random.txt", "utf8", function(err, data) {
+    var text = data.split(",");
+    var first = text[0];
+    var second = text[1];
+    second = second.replace(/"/g, "");
+    console.log("rirst: ", first);
+    console.log("second: ", second);
+
     if (err) {
       console.log("error!!!");
+    } else if (first === "spotify-this-song") {
+      value = second;
+      spotifyData();
+    } else {
+      console.log("command not recognized");
     }
-    console.log("data: " + [data.split(",")]);
   });
 }
