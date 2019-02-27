@@ -89,12 +89,18 @@ function spotifyData() {
       .search({ type: "track", query: value })
       .then(function(response) {
         console.log(`
+<<<<<<< HEAD
 ************************************************************
+=======
+>>>>>>> 4416cae9c9aaa259e90baa3482b7ce38e2e3ba5f
 Song title: ${response.tracks.items[0].name}
 Artist: ${response.tracks.items[0].artists[0].name}
 Preview URL: ${response.tracks.items[0].preview_url}
 Album: ${response.tracks.items[0].album.name}
+<<<<<<< HEAD
 ************************************************************
+=======
+>>>>>>> 4416cae9c9aaa259e90baa3482b7ce38e2e3ba5f
         `);
       })
       .catch(function(err) {
@@ -129,11 +135,22 @@ function doWhatItSays() {
 
     if (err) {
       console.log("error!!!");
+<<<<<<< HEAD
     } else if (first === "spotify-this-song") {
       value = second;
       spotifyData();
     } else {
       console.log("command not recognized");
+=======
+    } else {
+      var text = data.split(",");
+      if (text[0] === "spotify-this-song") {
+        value = text[1];
+        spotifyData();
+      } else {
+        console.log("cannot access data");
+      }
+>>>>>>> 4416cae9c9aaa259e90baa3482b7ce38e2e3ba5f
     }
   });
 }
