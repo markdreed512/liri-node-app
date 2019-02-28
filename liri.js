@@ -120,7 +120,6 @@ function movieData() {
     movieData();
   } else {
     axios.get(OmdbQueryUrl).then(function(response) {
-      console.log("ratings: " + response.data.Ratings);
       console.log(`
 ********************************************************
 Title: ${response.data.Title}
