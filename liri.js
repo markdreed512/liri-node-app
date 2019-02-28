@@ -29,6 +29,7 @@ for (var i = 3; i < process.argv.length; i++) {
     value += process.argv[i];
   }
 }
+
 var OmdbQueryUrl = "https://www.omdbapi.com/?t=" + value + "&apikey=trilogy";
 var bandsInTownQueryUrl =
   "https://rest.bandsintown.com/artists/" +
@@ -55,52 +56,56 @@ switch (command) {
 }
 
 function concertData() {
-  axios
-    .get(bandsInTownQueryUrl)
-    .then(function(response) {
-      var date = moment(response.data[0].datetime).format("MM/DD/YYYY");
-      console.log(`
+  if (value === "") {
+    console.log(`
+!!!
+Please enter an artist
+
+    `);
+  } else {
+    axios
+      .get(bandsInTownQueryUrl)
+      .then(function(response) {
+        var date = moment(response.data[0].datetime).format("MM/DD/YYYY");
+        console.log(`
+****************************************************
 Venue: ${response.data[0].venue.name}
 City: ${response.data[0].venue.city +
-        ", " +
-        response.data[0].venue.region +
-        ", " +
-        response.data[0].venue.country}
+          ", " +
+          response.data[0].venue.region +
+          ", " +
+          response.data[0].venue.country}
 Date: ${date};
+***************************************************
         `);
-    })
-    .catch(function(error) {
-      console.log(error);
-    });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
 }
 function spotifyData() {
   //If no song is provided then your program will default to "The Sign" by Ace of Base.
   if (value === "") {
-    spotify
-      .search({ type: "track", query: "the sign" })
-      .then(function(response) {
-        console.log("ace of base: " + JSON.stringify(response, null, 4));
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
+    console.log(`
+**********************************************************
+Artist: Ace of Base
+Song title: The Sign
+Preview URL: https://open.spotify.com/album/0nQFgMfnmWrcWDOQqIgJL7
+Album: The Sign
+**********************************************************
+    `);
   } else {
     spotify
       .search({ type: "track", query: value })
       .then(function(response) {
         console.log(`
-<<<<<<< HEAD
 ************************************************************
-=======
->>>>>>> 4416cae9c9aaa259e90baa3482b7ce38e2e3ba5f
 Song title: ${response.tracks.items[0].name}
 Artist: ${response.tracks.items[0].artists[0].name}
 Preview URL: ${response.tracks.items[0].preview_url}
 Album: ${response.tracks.items[0].album.name}
-<<<<<<< HEAD
 ************************************************************
-=======
->>>>>>> 4416cae9c9aaa259e90baa3482b7ce38e2e3ba5f
         `);
       })
       .catch(function(err) {
@@ -109,8 +114,14 @@ Album: ${response.tracks.items[0].album.name}
   }
 }
 function movieData() {
-  axios.get(OmdbQueryUrl).then(function(response) {
-    console.log(`
+  if (value === "") {
+    value = "mr+nobody";
+    OmdbQueryUrl = "https://www.omdbapi.com/?t=" + value + "&apikey=trilogy";
+    movieData();
+  } else {
+    axios.get(OmdbQueryUrl).then(function(response) {
+      console.log("ratings: " + response.data.Ratings);
+      console.log(`
 ********************************************************
 Title: ${response.data.Title}
 Year: ${response.data.Year}
@@ -122,7 +133,8 @@ Plot: ${response.data.Plot}
 Actors: ${response.data.Actors}
 ********************************************************
     `);
-  });
+    });
+  }
 }
 function doWhatItSays() {
   fs.readFile("random.txt", "utf8", function(err, data) {
@@ -135,22 +147,11 @@ function doWhatItSays() {
 
     if (err) {
       console.log("error!!!");
-<<<<<<< HEAD
     } else if (first === "spotify-this-song") {
       value = second;
       spotifyData();
     } else {
       console.log("command not recognized");
-=======
-    } else {
-      var text = data.split(",");
-      if (text[0] === "spotify-this-song") {
-        value = text[1];
-        spotifyData();
-      } else {
-        console.log("cannot access data");
-      }
->>>>>>> 4416cae9c9aaa259e90baa3482b7ce38e2e3ba5f
     }
   });
 }
