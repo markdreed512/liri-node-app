@@ -141,9 +141,6 @@ function doWhatItSays() {
     var first = text[0];
     var second = text[1];
     second = second.replace(/"/g, "");
-    console.log("rirst: ", first);
-    console.log("second: ", second);
-
     if (err) {
       console.log("error!!!");
     } else if (first === "spotify-this-song") {
